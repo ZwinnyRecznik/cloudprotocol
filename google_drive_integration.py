@@ -13,16 +13,17 @@ def upload_to_drive(sciezka_pliku):
 
     # Ścieżki do plików autoryzacyjnych w katalogu projektu
     client_secrets_path = os.path.join(BASE_DIR, "client_secrets.json")
-    gauth.LoadCredentialsFile(os.path.join(BASE_DIR, "token.json"))
+    token_path = os.path.join(BASE_DIR, "token.json")  # ⬅️ nowa zmienna dla token.json
+    gauth.LoadCredentialsFile(token_path)
 
     # Jeśli brak zapisanych poświadczeń, wczytaj klienta i zapisz token
     if gauth.credentials is None:
         gauth.LoadClientConfigFile(client_secrets_path)
         gauth.CommandLineAuth()  # ⬅️ użycie CommandLineAuth zamiast LocalWebserverAuth
-        gauth.SaveCredentialsFile(os.path.join(BASE_DIR, "token.json"))
+        gauth.SaveCredentialsFile(token_path)
     elif gauth.access_token_expired:
         gauth.Refresh()
-        gauth.SaveCredentialsFile(os.path.join(BASE_DIR, "token.json"))
+        gauth.SaveCredentialsFile(token_path)
     else:
         gauth.Authorize()
 
