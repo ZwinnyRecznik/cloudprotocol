@@ -1,0 +1,5 @@
+streamlit
+reportlab
+pydrive2
+Pillow
+
