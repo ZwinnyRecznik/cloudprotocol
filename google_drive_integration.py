@@ -7,7 +7,25 @@ import os                                             # Standardowa biblioteka p
 # Definicja funkcji, która wysyła plik na Google Drive
 def upload_to_drive(sciezka_pliku):
     gauth = GoogleAuth()                              # Tworzy obiekt autoryzacji Google
-    gauth.LocalWebserverAuth()                        # Uruchamia lokalny serwer do logowania użytkownika (otwiera przeglądarkę)
+
+    # Ustal katalog projektu (żeby pliki z kluczami były zawsze znajdowane)
+    BASE_DIR = os.path.dirname(__file__)
+
+    # Ścieżki do plików autoryzacyjnych w katalogu projektu
+    client_secrets_path = os.path.join(BASE_DIR, "client_secrets.json")
+    gauth.LoadCredentialsFile(os.path.join(BASE_DIR, "token.json"))
+
+    # Jeśli brak zapisanych poświadczeń, wczytaj klienta i zapisz token
+    if gauth.credentials is None:
+        gauth.LoadClientConfigFile(client_secrets_path)
+        gauth.CommandLineAuth()  # ⬅️ użycie CommandLineAuth zamiast LocalWebserverAuth
+        gauth.SaveCredentialsFile(os.path.join(BASE_DIR, "token.json"))
+    elif gauth.access_token_expired:
+        gauth.Refresh()
+        gauth.SaveCredentialsFile(os.path.join(BASE_DIR, "token.json"))
+    else:
+        gauth.Authorize()
+
     drive = GoogleDrive(gauth)                        # Tworzy obiekt Google Drive po udanej autoryzacji
 
     # ID folderu docelowego na Dysku Google (pobrane z linku w przeglądarce)
