@@ -1,4 +1,7 @@
-import streamlit as st
+# app.py
+from main import run_app
 
-st.title("Streamlit działa na PythonAnywhere!")
-st.write("Gratulacje — Twoja aplikacja jest uruchomiona 🎉")
+if __name__ == "__main__":
+    run_app()
+
+
