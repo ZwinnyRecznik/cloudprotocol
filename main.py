@@ -5,6 +5,9 @@ import os                                                   # Standardowa biblio
 from pdf_generator import generuj_pdf                       # Import funkcji generującej plik PDF (z osobnego modułu)
 from google_drive_integration import upload_to_drive        # Import funkcji do wysyłania plików na Google Drive
 
+# Kod potrzebny do hostowania aplikacji
+def run_app(): 
+
 #  Ustawienia aplikacji - nazwa strony, ikonka, układ aplikacji
 st.set_page_config(page_title="CloudProtocol", page_icon="☁️", layout="centered")
 
@@ -96,3 +99,4 @@ st.markdown("---")                                              # Linia końcowa
 st.caption(                                                     # Stopka aplikacji z podpisem
     "CloudProtocol © 2025 | Aplikacja do tworzenia cyfrowych protokołów serwisowych | Praca Licencjacka studenta Tytusa Szałamachy"
 )
+
